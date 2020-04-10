@@ -80,7 +80,7 @@ function sendMessage() {
   }
   DOM.input.value = '';
   drone.publish({
-    room: 'observable-room',
+    room: roomID,
     message: {
       name: getName(),
       message: value
