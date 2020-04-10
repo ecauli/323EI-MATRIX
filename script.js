@@ -13,6 +13,8 @@ drone.on('open', error => {
     return console.error(error);
   }
   addLog('Conectado com sucesso a Matrix Network v323.0.01');
+  addLog("Conectado a sala " + roomID);
+  if (roomID === 'Imortais') immortal();
 
   const room = drone.subscribe(roomID, {
     historyCount: 100 // ask for the 5 most recent messages from the room's history
@@ -21,8 +23,6 @@ drone.on('open', error => {
     if (error) {
       return console.error(error);
     }
-    addLog("Conectado a sala " + roomID);
-    if (roomID === 'Imortais') immortal();
   });
   room.on('history_message', (message) => {
     addLog(message.data);
@@ -41,7 +41,7 @@ drone.on('open', error => {
   });
 
   room.on('data', (text, member) => {
-    if (member) {
+    if (text.name) {
       addLog(text);
     } else {
       // Message is from server
