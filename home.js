@@ -23,7 +23,7 @@ DOM.input.addEventListener('keyup', function (e) {
                 addLog('************');
                 addLog('***HELP*****');
                 addLog('************');
-                addLog('Instante Messenger: matrix_ia [channel_code]');
+                addLog('Instante Messenger: matrix_im [channel_code]');
                 break;
             default:
                 addLog('Instabilidade na Matrix não consigo resolver o seu comando');
