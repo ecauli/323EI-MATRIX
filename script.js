@@ -1,13 +1,10 @@
 // PS! Replace this with your own channel ID
 // If you use this channel ID your app will stop working in the future
-const CLIENT_ID = '4cNswoNqM2wVFHPg';
-
-const drone = new ScaleDrone(CLIENT_ID, {
-  data: { // Will be sent out as clientData via events
-    name: getRandomName(),
-    color: getRandomColor(),
-  },
-});
+const CLIENT_ID = 'wy2gdodHybkBRw78';
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const roomID = window.atob(urlParams.get('channel'));
+const drone = new ScaleDrone(CLIENT_ID);
 
 let members = [];
 
@@ -15,35 +12,37 @@ drone.on('open', error => {
   if (error) {
     return console.error(error);
   }
-  console.log('Successfully connected to Scaledrone');
+  addLog('Conectado com sucesso a Matrix Network');
 
-  const room = drone.subscribe('observable-room');
+  const room = drone.subscribe(roomID, {
+    historyCount: 100 // ask for the 5 most recent messages from the room's history
+  });
   room.on('open', error => {
     if (error) {
       return console.error(error);
     }
-    console.log('Successfully joined room');
+    addLog("Conectado a sala " + roomID);
+    if (roomID === 'Imortais') immortal();
   });
-
+  room.on('history_message', (message) => {
+    addLog(message.data);
+  });
   room.on('members', m => {
     members = m;
-    updateMembersDOM();
   });
 
   room.on('member_join', member => {
     members.push(member);
-    updateMembersDOM();
   });
 
-  room.on('member_leave', ({id}) => {
+  room.on('member_leave', ({ id }) => {
     const index = members.findIndex(member => member.id === id);
     members.splice(index, 1);
-    updateMembersDOM();
   });
 
   room.on('data', (text, member) => {
     if (member) {
-      addMessageToListDOM(text, member);
+      addLog(text);
     } else {
       // Message is from server
     }
@@ -58,18 +57,8 @@ drone.on('error', error => {
   console.error(error);
 });
 
-function getRandomName() {
-  const adjs = ["autumn", "hidden", "bitter", "misty", "silent", "empty", "dry", "dark", "summer", "icy", "delicate", "quiet", "white", "cool", "spring", "winter", "patient", "twilight", "dawn", "crimson", "wispy", "weathered", "blue", "billowing", "broken", "cold", "damp", "falling", "frosty", "green", "long", "late", "lingering", "bold", "little", "morning", "muddy", "old", "red", "rough", "still", "small", "sparkling", "throbbing", "shy", "wandering", "withered", "wild", "black", "young", "holy", "solitary", "fragrant", "aged", "snowy", "proud", "floral", "restless", "divine", "polished", "ancient", "purple", "lively", "nameless"];
-  const nouns = ["waterfall", "river", "breeze", "moon", "rain", "wind", "sea", "morning", "snow", "lake", "sunset", "pine", "shadow", "leaf", "dawn", "glitter", "forest", "hill", "cloud", "meadow", "sun", "glade", "bird", "brook", "butterfly", "bush", "dew", "dust", "field", "fire", "flower", "firefly", "feather", "grass", "haze", "mountain", "night", "pond", "darkness", "snowflake", "silence", "sound", "sky", "shape", "surf", "thunder", "violet", "water", "wildflower", "wave", "water", "resonance", "sun", "wood", "dream", "cherry", "tree", "fog", "frost", "voice", "paper", "frog", "smoke", "star"];
-  return (
-    adjs[Math.floor(Math.random() * adjs.length)] +
-    "_" +
-    nouns[Math.floor(Math.random() * nouns.length)]
-  );
-}
-
-function getRandomColor() {
-  return '#' + Math.floor(Math.random() * 0xFFFFFF).toString(16);
+function getName() {
+  return document.querySelector('.message-form__name').value;
 }
 
 //------------- DOM STUFF
@@ -92,40 +81,62 @@ function sendMessage() {
   DOM.input.value = '';
   drone.publish({
     room: 'observable-room',
-    message: value,
+    message: {
+      name: getName(),
+      message: value
+    },
   });
 }
 
-function createMemberElement(member) {
-  const { name, color } = member.clientData;
+function createMemberElement(name) {
   const el = document.createElement('div');
   el.appendChild(document.createTextNode(name));
   el.className = 'member';
-  el.style.color = color;
   return el;
 }
 
-function updateMembersDOM() {
-  DOM.membersCount.innerText = `${members.length} users in room:`;
-  DOM.membersList.innerHTML = '';
-  members.forEach(member =>
-    DOM.membersList.appendChild(createMemberElement(member))
-  );
-}
-
-function createMessageElement(text, member) {
+function createMessageElement(text) {
   const el = document.createElement('div');
-  el.appendChild(createMemberElement(member));
-  el.appendChild(document.createTextNode(text));
+  if (typeof text === 'string') {
+    el.appendChild(document.createTextNode(text));
+  } else {
+    el.appendChild(createMemberElement(text.name));
+    el.appendChild(document.createTextNode(text.message));
+  }
   el.className = 'message';
   return el;
 }
 
-function addMessageToListDOM(text, member) {
+function addLog(text) {
   const el = DOM.messages;
   const wasTop = el.scrollTop === el.scrollHeight - el.clientHeight;
-  el.appendChild(createMessageElement(text, member));
+  el.appendChild(createMessageElement(text));
   if (wasTop) {
     el.scrollTop = el.scrollHeight - el.clientHeight;
   }
+}
+
+function sortyBy(property) {
+  var sortOrder = 1;
+  if (property[0] === "-") {
+    sortOrder = -1;
+    property = property.substr(1);
+  }
+  return function (a, b) {
+    /* next line works with strings and numbers, 
+     * and you may want to customize it to your needs
+     */
+    var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+    return result * sortOrder;
+  }
+}
+
+function immortal() {
+  addLog('┏━━━┓━━━━━━━━━━━━━━━━━━━━━━┏┓━━━━━━━━━━━━━━━┏━━┓┏━┓┏━┓┏━━━┓┏━━━┓┏━━━━┓┏━━━┓┏┓━━━');
+  addLog('┃┏━┓┃━━━━━━━━━━━━━━━━━━━━━━┃┃━━━━━━━━━━━━━━━┗┫┣┛┃┃┗┛┃┃┃┏━┓┃┃┏━┓┃┃┏┓┏┓┃┃┏━┓┃┃┃━━━');
+  addLog('┃┃━┃┃━━━━┏━━┓┏┓┏┓┏━━┓━┏━┓┏━┛┃┏┓┏━━┓━┏━━┓━━━━━┃┃━┃┏┓┏┓┃┃┃━┃┃┃┗━┛┃┗┛┃┃┗┛┃┃━┃┃┃┃━━━');
+  addLog('┃┗━┛┃━━━━┃┗┛┃┃┗┛┃┃┗┛┗┓┃┃━┃┗┛┃┃┃┃┗┛┗┓┃┗┛┃━━━━┏┫┣┓┃┃┃┃┃┃┃┗━┛┃┃┃┃┗┓━┏┛┗┓━┃┏━┓┃┃┗━┛┃');
+  addLog('┗━━━┛━━━━┗━┓┃┗━━┛┗━━━┛┗┛━┗━━┛┗┛┗━━━┛┗━━┛━━━━┗━━┛┗┛┗┛┗┛┗━━━┛┗┛┗━┛━┗━━┛━┗┛━┗┛┗━━━┛');
+  addLog('━━━━━━━━━┏━┛┃━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  addLog('━━━━━━━━━┗━━┛━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 }
