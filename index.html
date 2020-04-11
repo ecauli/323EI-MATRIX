@@ -2,13 +2,13 @@
 <html>
 
 <head>
-  <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
-  <!--<script type='text/javascript' src='http://0.0.0.0:8080/scaledrone.js'></script>-->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-  <style>
-    html {
+    <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
+    <!--<script type='text/javascript' src='http://0.0.0.0:8080/scaledrone.js'></script>-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        html {
       height: 100%;
       margin: 0;
       padding: 0;
@@ -69,6 +69,7 @@
   .member {
     display: inline-block;
     color: #FFF;
+    margin-right: 5px; 
   }  
   .member:before {
     content: '$/';
@@ -100,27 +101,27 @@
 </head>
 
 <body>
-  <div class="window">
-    <div class="terminal">
-      <div class="log">
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br />
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br />
-        ┏━┓┏━┓┏━━━┓┏━━━━┓┏━━━┓┏━━┓┏━┓┏━┓━━━━━━━━┏━━━┓┏━━━┓┏━━━┓┏━━━┓┏━━┓<br />
-        ┃┃┗┛┃┃┃┏━┓┃┃┏┓┏┓┃┃┏━┓┃┗┫┣┛┗┓┗┛┏┛━━━━━━━━┃┏━┓┃┃┏━┓┃┃┏━┓┃┃┏━━┛┗┫┣┛<br />
-        ┃┏┓┏┓┃┃┃━┃┃┗┛┃┃┗┛┃┗━┛┃━┃┃━━┗┓┏┛━━━━━┏┓┏┓┗┛┏┛┃┗┛┏┛┃┗┛┏┛┃┃┗━━┓━┃┃━<br />
-        ┃┃┃┃┃┃┃┗━┛┃━━┃┃━━┃┏┓┏┛━┃┃━━┏┛┗┓━━━━━┃┗┛┃┏┓┗┓┃┏━┛┏┛┏┓┗┓┃┃┏━━┛━┃┃━<br />
-        ┃┃┃┃┃┃┃┏━┓┃━┏┛┗┓━┃┃┃┗┓┏┫┣┓┏┛┏┓┗┓━━━━┗┓┏┛┃┗━┛┃┃┃┗━┓┃┗━┛┃┃┗━━┓┏┫┣┓<br />
-        ┗┛┗┛┗┛┗┛━┗┛━┗━━┛━┗┛┗━┛┗━━┛┗━┛┗━┛━━━━━┗┛━┗━━━┛┗━━━┛┗━━━┛┗━━━┛┗━━┛<br />
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br />
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br />
-      </div>
-      <div class="log messages"></div>
-      <form class="message-form" onsubmit="return false;">
-        <input class="inputs message-form__input" placeholder="Digite a mensagem" type="text" />
-      </form>
+    <div class="window">
+        <div class="terminal">
+            <div class="log">
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br />
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br />
+                ┏━┓┏━┓┏━━━┓┏━━━━┓┏━━━┓┏━━┓┏━┓┏━┓━━━━━━━━┏━━━┓┏━━━┓┏━━━┓┏━━━┓┏━━┓<br />
+                ┃┃┗┛┃┃┃┏━┓┃┃┏┓┏┓┃┃┏━┓┃┗┫┣┛┗┓┗┛┏┛━━━━━━━━┃┏━┓┃┃┏━┓┃┃┏━┓┃┃┏━━┛┗┫┣┛<br />
+                ┃┏┓┏┓┃┃┃━┃┃┗┛┃┃┗┛┃┗━┛┃━┃┃━━┗┓┏┛━━━━━┏┓┏┓┗┛┏┛┃┗┛┏┛┃┗┛┏┛┃┃┗━━┓━┃┃━<br />
+                ┃┃┃┃┃┃┃┗━┛┃━━┃┃━━┃┏┓┏┛━┃┃━━┏┛┗┓━━━━━┃┗┛┃┏┓┗┓┃┏━┛┏┛┏┓┗┓┃┃┏━━┛━┃┃━<br />
+                ┃┃┃┃┃┃┃┏━┓┃━┏┛┗┓━┃┃┃┗┓┏┫┣┓┏┛┏┓┗┓━━━━┗┓┏┛┃┗━┛┃┃┃┗━┓┃┗━┛┃┃┗━━┓┏┫┣┓<br />
+                ┗┛┗┛┗┛┗┛━┗┛━┗━━┛━┗┛┗━┛┗━━┛┗━┛┗━┛━━━━━┗┛━┗━━━┛┗━━━┛┗━━━┛┗━━━┛┗━━┛<br />
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br />
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br />
+            </div>
+            <div class="log messages"></div>
+            <form class="message-form" onsubmit="return false;">
+                <input class="inputs message-form__input" placeholder="Digite a mensagem" type="text" />
+            </form>
+        </div>
     </div>
-  </div>
-  <script src="./home.js"></script>
+    <script type="module" src="./index.js"></script>
 </body>
 
 </html>
