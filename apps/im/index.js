@@ -65,7 +65,8 @@ const Im = message => {
 const validChannels = [
     'UmF0b3MgZGUgY2lyY3VpdG8=',
     'SW1vcnRhaXM',
-    'YWRtaW4='
+    'YWRtaW4=',
+    'bGF0YXZlbGhh'
 ]
 
 const firewall = {
